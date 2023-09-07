@@ -10,9 +10,7 @@ all: $(srcs:%.cpp=%)
 clean:
 	rm -f *.o *.bin
 	find * -type f -executable -delete
-	cd esp_cf
-	idf.py fullclean
-	cd ..
+	cd esp_cf && idf.py fullclean && cd ..
 
 % : %.o ; @$(LINK.cpp) $(OUTPUT_OPTION) $^ $(LDLIBS)
 
@@ -24,6 +22,15 @@ py:
 asm:
 	nasm cf.asm -f bin -o cf.bin
 
+esp:
+	cd esp_cf && idf.py build && cd ..
+
+flash:
+	cd esp_cf && idf.py flash monitor && cd ..
+
+erase_flash:
+	cd esp_cf && idf.py erase_flash && cd ..
+
 r_asm:
 	qemu-system-x86_64 -fda cf.bin
 
@@ -32,7 +39,7 @@ fwrd_qemu:
 
 format:
 	clang-format -i --style=file \
-		$(shell find -name '*.h' -o -name '*.hpp' -o -name '*.tcc' -o -name '*.c' -o -name '*.cpp')
+		$(shell find . ! -path "./*/build/*" \( -name '*.h' -o -name '*.hpp' -o -name '*.tcc' -o -name '*.c' -o -name '*.cpp' \))
 
 new: clean
 	cp tmpl cf.cpp
