@@ -2,11 +2,24 @@ menu "CF"
     config LOGGER_TAG
         string "Logger tag"
         default "CF"
+endmenu
 
-    config TEST_OPT
-        int "Test opt"
-        range 0 20
-        default 10
-        help
-            Just a test opt
+menu "Task"
+    config TASK_MAIN_TAG
+        string "Main task tag"
+        default "CF"
+
+    config TASK_STACK_SIZE
+        int "Default FreeRTOS Task stack size"
+        default 4096
+
+    config TASK_PRIORITY
+        int "Default FreeRTOS Task priority"
+        default 5
+
+    config TASK_CORE_ID
+        int "Default FreeRTOS Task core id"
+        default 1
+        range 0 1
+
 endmenu

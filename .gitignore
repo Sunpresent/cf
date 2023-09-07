@@ -5,3 +5,5 @@ tmpl
 saves
 *.bin
 build
+.vscode
+*.old

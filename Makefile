@@ -31,6 +31,9 @@ flash:
 erase_flash:
 	cd esp_cf && idf.py erase_flash && cd ..
 
+menuconfig:
+	cd esp_cf && idf.py menuconfig && cd ..
+
 r_asm:
 	qemu-system-x86_64 -fda cf.bin
 

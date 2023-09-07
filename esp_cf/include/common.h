@@ -2,13 +2,19 @@
  * @file common.h
  * @author Ali Nasrolahi (A.Nasrolahi01@gmail.com).
  * @brief Generic functionalities to be used across projects.
- * @date 2023-09-07.
+ * @date 2023-09-08.
  *
  */
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_wifi.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/event_groups.h"
+#include "freertos/task.h"
+#include "nvs_flash.h"
 #include "sdkconfig.h"
 
 /**
@@ -22,3 +28,5 @@
 
 #define DELAY(_t) vTaskDelay(_t)
 #define DELAY_IN_SEC(_t) DELAY((_t)*100)
+
+#endif
