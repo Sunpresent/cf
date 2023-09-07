@@ -1,6 +1,6 @@
 CXX=g++
 CXXFLAGS += -Wall -Werror -g3 -pthread -luuid
-srcs := $(shell find . -name \*.cpp)
+srcs := $(shell find ! -path "./esp*/*" \( -name "*.cpp" -o -name "*.c" \))
 
 .PHONY: all
 
@@ -10,6 +10,9 @@ all: $(srcs:%.cpp=%)
 clean:
 	rm -f *.o *.bin
 	find * -type f -executable -delete
+	cd esp_cf
+	idf.py fullclean
+	cd ..
 
 % : %.o ; @$(LINK.cpp) $(OUTPUT_OPTION) $^ $(LDLIBS)
 
@@ -31,9 +34,11 @@ format:
 	clang-format -i --style=file \
 		$(shell find -name '*.h' -o -name '*.hpp' -o -name '*.tcc' -o -name '*.c' -o -name '*.cpp')
 
-new:
+new: clean
 	cp tmpl cf.cpp
-	sed -i "s/@date/@date $(shell date +%F)./" cf.cpp
+	rm -rf esp_cf/*
+	cp -r esp_tmpl/* esp_cf/
+	sed -i "s/@date/@date $(shell date +%F)./" cf.cpp esp_cf/main/*.c esp_cf/include/*.h
 
 pre:
 	$(CXX) -E cf.cpp
@@ -45,7 +50,20 @@ else
 	cp cf.cpp saves/$(NAME).cpp
 endif
 
-load:
+save_esp:
+ifeq ($(NAME),)
+	cp -r esp_cf/ saves/esp_cf-$(shell date '+%Y%m%d')/
+else
+	cp -r esp_cf/ saves/$(NAME)/
+endif
+
+load: clean
 ifneq ($(NAME),)
 	cp saves/$(NAME).cpp cf.cpp
+endif
+
+load_esp: clean
+ifneq ($(NAME),)
+	rm -rf esp_cf/*
+	cp -r saves/$(NAME)/* esp_cf/
 endif
