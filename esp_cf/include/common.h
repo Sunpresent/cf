@@ -2,7 +2,7 @@
  * @file common.h
  * @author Ali Nasrolahi (A.Nasrolahi01@gmail.com).
  * @brief Generic functionalities to be used across projects.
- * @date 2023-09-08.
+ * @date 2023-09-09.
  *
  */
 #ifndef _COMMON_H_

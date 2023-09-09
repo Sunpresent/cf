@@ -10,7 +10,9 @@ all: $(srcs:%.cpp=%)
 clean:
 	rm -f *.o *.bin
 	find * -type f -executable -delete
+ifneq ($(IDF_PATH),)
 	cd esp_cf && idf.py fullclean && cd ..
+endif
 
 % : %.o ; @$(LINK.cpp) $(OUTPUT_OPTION) $^ $(LDLIBS)
 
