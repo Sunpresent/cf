@@ -66,6 +66,7 @@ save_esp:
 ifeq ($(NAME),)
 	cp -r esp_cf/ saves/esp_cf-$(shell date '+%Y%m%d')/
 else
+	rm -rf saves/$(NAME)/
 	cp -r esp_cf/ saves/$(NAME)/
 endif
 
