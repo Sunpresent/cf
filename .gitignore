@@ -2,7 +2,6 @@
 *.out
 cf
 tmpl
-saves
 *.bin
 build
 .vscode
